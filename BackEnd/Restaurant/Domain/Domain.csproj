@@ -8,4 +8,8 @@
 
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\_Common\Common.Exceptions\Common.Exceptions.csproj" />
+  </ItemGroup>
+
 </Project>
