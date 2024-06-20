@@ -16,6 +16,22 @@ namespace Domain.Models
 
         public int Grade { get; private set; }
 
+        public User? User { get; private set; }
+
+        public Restaurant? Restaurant { get; private set; }
+
+        private Review()
+        {
+            Id = Guid.Empty;
+            UserId = Guid.Empty;
+            RestaurantId = Guid.Empty;
+            Title = string.Empty;
+            Text = string.Empty;
+            Grade = 0;
+            User = default;
+            Restaurant = default;
+        }
+
         private Review(Guid id, Guid userId, Guid restaurantId, string title, string text, int grade)
         {
             Id = id;

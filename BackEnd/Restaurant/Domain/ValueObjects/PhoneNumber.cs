@@ -37,9 +37,29 @@ namespace Domain.ValueObjects
 
         private static bool IsValid(string countryCode, string phoneNumber)
         {
-            string temp = countryCode + phoneNumber;
+            string temp = countryCode.Replace(" ", "") + " " + phoneNumber.Replace(" ", "");
 
-            return Regex.Match(temp.Trim(), @"^(\+[0-9]{12})$").Success;
+            return Regex.Match(temp.Trim(), @"^(?:\+381)?\s?\(?\d{2}\)?[-.\s]?\d{3}[-.\s]?\d{4}$").Success;
+        }
+
+        public static PhoneNumber Parse(string fullNumber)
+        {
+            // Split the full number on the first space
+            var splitIndex = fullNumber.IndexOf(' ');
+            if (splitIndex == -1)
+            {
+                throw new ArgumentException("Invalid full number format. Expected format 'CountryCode + Empty_space + Number'.");
+            }
+
+            var countryCode = fullNumber.Substring(0, splitIndex);
+            var number = fullNumber.Substring(splitIndex + 1);
+
+            return new PhoneNumber(countryCode, number);
+        }
+
+        public override string ToString()
+        {
+            return $"{CountryCode} {Number}";
         }
     }
 }

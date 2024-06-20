@@ -22,11 +22,15 @@ namespace Domain.ValueObjects
             throw new BussinessRuleValidationExeption("Email is required");
         }
 
-        private static bool IsValid(string mailAddress)
+        public static bool IsValid(string mailAddress)
         {
-            string regex = @"^[^@\s]+@[^@\s]+\.(com|net|org|gov)$";
+            string emailPattern = @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";
 
-            return Regex.IsMatch(mailAddress, regex, RegexOptions.IgnoreCase);
+            if (string.IsNullOrEmpty(mailAddress))
+                return false;
+
+            Regex regex = new Regex(emailPattern);
+            return regex.IsMatch(mailAddress);
         }
     }
 }

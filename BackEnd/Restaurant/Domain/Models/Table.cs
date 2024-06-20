@@ -10,17 +10,25 @@ namespace Domain.Models
 
         public int Seats { get; private set; }
 
-        public decimal DepositAmount { get; private set; }
+        public Restaurant? Restaurant { get; init; }
 
-        private Table(Guid id, Guid restaurantId, int seats, decimal depositAmount)
+        private Table()
+        {
+            Id = Guid.Empty;
+            RestaurantId = Guid.Empty;
+            Seats = 0;
+            Restaurant = default;
+        }
+
+        private Table(Guid id, Guid restaurantId, int seats)
         {
             Id = id;
             RestaurantId = restaurantId;
             Seats = seats;
-            DepositAmount = depositAmount;
+            Restaurant = default;
         }
 
-        public static Table Create(Restaurant restaurant, int seats, decimal depositAmount)
+        public static Table Create(Restaurant restaurant, int seats)
         {
             if (string.IsNullOrWhiteSpace(seats.ToString()))
             {
@@ -32,17 +40,7 @@ namespace Domain.Models
                 throw new BussinessRuleValidationExeption("Number of seats must be a positive number smaller than 12");
             }
 
-            if (string.IsNullOrWhiteSpace(depositAmount.ToString()))
-            {
-                throw new BussinessRuleValidationExeption("Deposit amount is a required number for table");
-            }
-
-            if (depositAmount < 0)
-            {
-                throw new BussinessRuleValidationExeption("Deposit cant be value smaller than 0");
-            }
-
-            return new Table(Guid.NewGuid(), restaurant.Id, seats, depositAmount);
+            return new Table(Guid.NewGuid(), restaurant.Id, seats);
         }
     }
 }

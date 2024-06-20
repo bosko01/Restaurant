@@ -20,6 +20,16 @@ namespace Domain.Models
 
         public PhoneNumber Phone { get; private set; }
 
+        private User()
+        {
+            FirstName = string.Empty;
+            LastName = string.Empty;
+            Email = Email.Create(string.Empty);
+            Password = string.Empty;
+            UserType = default;
+            Phone = PhoneNumber.Create(string.Empty, string.Empty);
+        }
+
         private User(Guid id, string firstName, string lastName, string email, string password, string countryCode, string phoneNumber)
         {
             Id = id;

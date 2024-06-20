@@ -26,6 +26,20 @@ namespace Domain.Models
 
         public List<Table> Tables { get; private set; }
 
+        private Restaurant()
+        { 
+            Id = Guid.Empty;
+            Name = string.Empty;
+            Description = string.Empty;
+            Location = string.Empty;
+            Email = Email.Create(string.Empty);
+            Phone = PhoneNumber.Create(string.Empty, string.Empty);
+            Menu = string.Empty;
+            Category = new();
+            Reviews = new();
+            Tables = new();
+        }
+
         private Restaurant(Guid id, string name, string description, string location, string email, string countryCode, string phoneNumber, string menu)
         {
             Id = id;
