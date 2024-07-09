@@ -36,5 +36,7 @@ namespace Infrastructure.Database
         public DbSet<Restaurant> Restaurants { get; set; }
 
         public DbSet<Reservation> Reservations { get; set; }
+
+        public DbSet<UserCredentials> UserCredentials { get; set; }
     }
 }

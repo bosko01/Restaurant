@@ -21,21 +21,18 @@ namespace Infrastructure.Database.EntityConfiguration
             builder.Property(x => x.LastName)
                 .HasColumnType("nvarchar(100)");
 
-            builder.Property(x => x.Email)
-                .HasConversion(new EmailConverter())
-                .HasColumnType("nvarchar(50)")
-                .IsRequired();
-
-            builder.Property(x => x.Password)
-                .HasColumnType("Nvarchar(30)")
-                .IsRequired();
-
             builder.ConfigureEnum(x => x.UserType);
 
             builder.Property(x => x.Phone)
                 .HasConversion(new PhoneConverter())
                 .HasColumnType("nvarchar(20)")
                 .IsRequired();
+
+            builder.HasOne(x => x.Credentials)
+                .WithOne()
+                .HasForeignKey<User>(x => x.CredentialsId)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

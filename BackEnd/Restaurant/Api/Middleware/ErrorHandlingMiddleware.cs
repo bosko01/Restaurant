@@ -49,6 +49,14 @@ namespace Api.Middleware
                             );
                     break;
 
+                case EntityNotFoundException entityNotFountException:
+                    context.Response.StatusCode = StatusCodes.Status404NotFound;
+                    await context.Response.WriteAsync(
+                        ErrorDetails.Create(
+                            (HttpStatusCode)StatusCodes.Status404NotFound, entityNotFountException.Message).ToString()
+                        );
+                    break;
+
                 default:
                     await context.Response.WriteAsync(
                         ErrorDetails.Create(

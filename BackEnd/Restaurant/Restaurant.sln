@@ -15,6 +15,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Common", "_Common", "{2EE5
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Exceptions", "_Common\Common.Exceptions\Common.Exceptions.csproj", "{97D494F5-49A0-41C7-916D-7CD5302E9D39}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "RegexValidation", "RegexValidation", "{B7008AB6-8DE3-4436-A6D8-53994B8F1791}"
+	ProjectSection(SolutionItems) = preProject
+		_Common\Common.Exceptions\RegexValidation\RegexValidation.cs = _Common\Common.Exceptions\RegexValidation\RegexValidation.cs
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +52,7 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{97D494F5-49A0-41C7-916D-7CD5302E9D39} = {2EE59EDB-B720-450A-AFA7-946739859AD0}
+		{B7008AB6-8DE3-4436-A6D8-53994B8F1791} = {2EE59EDB-B720-450A-AFA7-946739859AD0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {570812D9-DCD8-4D6B-AA8A-9A02B9EA0556}

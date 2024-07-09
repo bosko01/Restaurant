@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(RestaurantDbContext))]
-    [Migration("20240620074600_initial")]
-    partial class initial
+    [Migration("20240708093531_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -162,9 +162,8 @@ namespace Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(50)");
+                    b.Property<Guid>("CredentialsId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -173,10 +172,6 @@ namespace Infrastructure.Migrations
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("Nvarchar(30)");
 
                     b.Property<string>("Phone")
                         .IsRequired()
@@ -188,10 +183,36 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CredentialsId")
+                        .IsUnique();
+
                     b.ToTable("Users", null, t =>
                         {
                             t.HasCheckConstraint("CK_User_UserType", "UserType IN ('User','Manager','Admin')");
                         });
+                });
+
+            modelBuilder.Entity("Domain.Models.UserCredentials", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("Salt")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(255)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UserCredentials", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Models.Reservation", b =>
@@ -249,6 +270,17 @@ namespace Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Restaurant");
+                });
+
+            modelBuilder.Entity("Domain.Models.User", b =>
+                {
+                    b.HasOne("Domain.Models.UserCredentials", "Credentials")
+                        .WithOne()
+                        .HasForeignKey("Domain.Models.User", "CredentialsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Credentials");
                 });
 
             modelBuilder.Entity("Domain.Models.Restaurant", b =>

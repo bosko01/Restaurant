@@ -1,12 +1,19 @@
 ﻿using Common.Exceptions;
+using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 
 namespace Domain.ValueObjects
 {
     public class Email
     {
-        public string mailAddress;
+        public string mailAddress { get; }
 
+        private Email()
+        {
+            mailAddress = string.Empty;
+        }
+
+        [JsonConstructor]
         private Email(string mailAddress)
         {
             this.mailAddress = mailAddress;
@@ -31,6 +38,11 @@ namespace Domain.ValueObjects
 
             Regex regex = new Regex(emailPattern);
             return regex.IsMatch(mailAddress);
+        }
+
+        public override string ToString()
+        {
+            return mailAddress;
         }
     }
 }

@@ -1,14 +1,16 @@
 ﻿using Common.Exceptions;
+using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 
 namespace Domain.ValueObjects
 {
     public class PhoneNumber
     {
-        private string CountryCode { get; set; }
+        public string CountryCode { get; private set; }
 
-        private string Number { get; set; }
+        public string Number { get; private set; }
 
+        [JsonConstructor]
         private PhoneNumber(string countryCode, string number)
         {
             CountryCode = countryCode;

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class initial : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -30,21 +30,17 @@ namespace Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Users",
+                name: "UserCredentials",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    FirstName = table.Column<string>(type: "nvarchar(50)", nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(100)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(50)", nullable: false),
-                    Password = table.Column<string>(type: "Nvarchar(30)", nullable: false),
-                    UserType = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Phone = table.Column<string>(type: "nvarchar(20)", nullable: false)
+                    Password = table.Column<string>(type: "nvarchar(255)", nullable: false),
+                    Salt = table.Column<string>(type: "nvarchar(255)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Users", x => x.Id);
-                    table.CheckConstraint("CK_User_UserType", "UserType IN ('User','Manager','Admin')");
+                    table.PrimaryKey("PK_UserCredentials", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -67,29 +63,24 @@ namespace Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Reviews",
+                name: "Users",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    RestaurantId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(255)", nullable: false),
-                    Text = table.Column<string>(type: "nvarchar(255)", nullable: false),
-                    Grade = table.Column<int>(type: "int", nullable: false)
+                    CredentialsId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(50)", nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(100)", nullable: false),
+                    UserType = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Phone = table.Column<string>(type: "nvarchar(20)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Reviews", x => x.Id);
+                    table.PrimaryKey("PK_Users", x => x.Id);
+                    table.CheckConstraint("CK_User_UserType", "UserType IN ('User','Manager','Admin')");
                     table.ForeignKey(
-                        name: "FK_Reviews_Restaurants_RestaurantId",
-                        column: x => x.RestaurantId,
-                        principalTable: "Restaurants",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Reviews_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
+                        name: "FK_Users_UserCredentials_CredentialsId",
+                        column: x => x.CredentialsId,
+                        principalTable: "UserCredentials",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -129,6 +120,34 @@ namespace Infrastructure.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Reviews",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    RestaurantId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(255)", nullable: false),
+                    Text = table.Column<string>(type: "nvarchar(255)", nullable: false),
+                    Grade = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Reviews", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Reviews_Restaurants_RestaurantId",
+                        column: x => x.RestaurantId,
+                        principalTable: "Restaurants",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Reviews_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Reservations_RestaurantId",
                 table: "Reservations",
@@ -159,6 +178,12 @@ namespace Infrastructure.Migrations
                 name: "IX_Tables_RestaurantId",
                 table: "Tables",
                 column: "RestaurantId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_CredentialsId",
+                table: "Users",
+                column: "CredentialsId",
+                unique: true);
         }
 
         /// <inheritdoc />
@@ -178,6 +203,9 @@ namespace Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Restaurants");
+
+            migrationBuilder.DropTable(
+                name: "UserCredentials");
         }
     }
 }
