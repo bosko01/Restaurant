@@ -1,7 +1,5 @@
-using Common.Exceptions;
 using Domain.Interfaces.IUser;
 using Domain.Models;
-using Domain.ValueObjects;
 using Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,11 +14,11 @@ namespace Infrastructure.Repositories.UserRepository
             _dbContext = dbContext;
         }
 
-        public async Task<User> CreateNewAsync(User t)
+        public async Task<User> CreateNewAsync(User user)
         {
-            var user = await _dbContext.AddAsync(t);
+            await _dbContext.AddAsync(user);
 
-            return t;
+            return user;
         }
 
         public async Task<List<User>> GetAllAsync()
@@ -47,10 +45,10 @@ namespace Infrastructure.Repositories.UserRepository
             _dbContext.Users.Remove(user);
         }
 
-        public async Task<User> UpdateAsync(User t)
+        public async Task<User> UpdateAsync(User user)
         {
-            _dbContext.Users.Update(t);
-            return t;
+            _dbContext.Users.Update(user);
+            return user;
         }
     }
 }

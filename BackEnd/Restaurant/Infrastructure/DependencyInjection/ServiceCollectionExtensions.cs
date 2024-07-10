@@ -1,12 +1,11 @@
 ﻿using Application.Interfaces;
-using Application.UseCases.Users.CreateUser;
-using Application.UseCases.Users.DeleteUser;
-using Application.UseCases.Users.ReadUser;
 using Domain.Interfaces;
+using Domain.Interfaces.IRestaurant;
 using Domain.Interfaces.IUser;
 using Domain.Interfaces.IUserCredentials;
 using Infrastructure.Database;
 using Infrastructure.Helper;
+using Infrastructure.Repositories.RestaurantRepository;
 using Infrastructure.Repositories.UnitOfWork;
 using Infrastructure.Repositories.UserCredentialsRepository;
 using Infrastructure.Repositories.UserRepository;
@@ -33,6 +32,7 @@ namespace Infrastructure.DependencyInjection
         {
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserCredentialsRepository, UserCredentialsRepository>();
+            services.AddScoped<IRestaurantRepository, RestaurantRepository>();
 
             return services;
         }

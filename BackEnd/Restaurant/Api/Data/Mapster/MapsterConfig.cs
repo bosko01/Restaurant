@@ -1,5 +1,7 @@
 ﻿using Api.Data.DTOs.ComonDto;
+using Api.Data.DTOs.RestaurantDto;
 using Api.Data.DTOs.UserDTOs;
+using Application.UseCases.Restaurant.CreateRestaurant;
 using Application.UseCases.Users.CreateUser;
 using Application.UseCases.Users.UpdateUser;
 using Domain.Models;
@@ -13,9 +15,9 @@ namespace Api.Data.Mapster
         public static void RegisterMapsterConfiguration(this IServiceCollection services)
         {
             TypeAdapterConfig<CreateUserDto, User>.NewConfig()
-            .Map(dest => dest.FirstName, src => src.FirstName)
-            .Map(dest => dest.LastName, src => src.LastName)
-            .Map(dest => dest.Phone, src => src.PhoneNumber.Adapt<PhoneNumber>());
+                .Map(dest => dest.FirstName, src => src.FirstName)
+                .Map(dest => dest.LastName, src => src.LastName)
+                .Map(dest => dest.Phone, src => src.PhoneNumber.Adapt<PhoneNumber>());
 
             TypeAdapterConfig<PhoneNumberRequestDto, PhoneNumber>.NewConfig()
                 .ConstructUsing(src => PhoneNumber.Create(src.CountryCode, src.Number));
@@ -27,7 +29,7 @@ namespace Api.Data.Mapster
                     src.Email,
                     src.Password,
                     src.PhoneNumber.Adapt<PhoneNumber>()
-                    ));
+                ));
 
             TypeAdapterConfig<UpdateUserUseCase.Response, ReadUserDto>.NewConfig()
                 .ConstructUsing(src => new ReadUserDto
@@ -63,7 +65,7 @@ namespace Api.Data.Mapster
                     src.Email,
                     src.Password,
                     PhoneNumber.Create(src.PhoneNumber.CountryCode, src.PhoneNumber.Number)
-                    ));
+                ));
 
             TypeAdapterConfig<CreateManagerUseCase.Response, ReadUserDto>.NewConfig()
                 .ConstructUsing(src => new ReadUserDto
@@ -81,7 +83,22 @@ namespace Api.Data.Mapster
                     src.Email,
                     src.Password,
                     PhoneNumber.Create(src.PhoneNumber.CountryCode, src.PhoneNumber.Number)
-                    ));
+                ));
+
+            TypeAdapterConfig<CreateRestaurantDto, CreateRestaurantUseCase.Request>.NewConfig()
+                .Map(dest => dest.Email, src => src.Email)
+                .Map(dest => dest.CountryCode, src => src.PhoneNumberRequest.CountryCode)
+                .Map(dest => dest.Number, src => src.PhoneNumberRequest.Number);
+
+            TypeAdapterConfig<CreateRestaurantUseCase.Request, Restaurant>.NewConfig()
+                .Map(dest => dest.Email, src => Email.Create(src.Email))
+                .Map(dest => dest.Phone, src => PhoneNumber.Create(src.CountryCode, src.Number))
+                .Map(dest => dest.Name, src => src.Name)
+                .Map(dest => dest.Description, src => src.Description)
+                .Map(dest => dest.Location, src => src.Location)
+                .Map(dest => dest.Menu, src => src.Menu);
+
+            TypeAdapterConfig<CreateRestaurantUseCase.Response, ReadRestaurantDto>.NewConfig();
         }
     }
 }

@@ -14,11 +14,11 @@ namespace Infrastructure.Repositories.UserCredentialsRepository
             _dbContext = dbContext;
         }
 
-        public async Task<UserCredentials> CreateNewAsync(UserCredentials t)
+        public async Task<UserCredentials> CreateNewAsync(UserCredentials userCredentials)
         {
-            var user = await _dbContext.AddAsync(t);
+            await _dbContext.AddAsync(userCredentials);
 
-            return t;
+            return userCredentials;
         }
 
         public async Task DeleteAsync(UserCredentials userCredentials)
@@ -40,11 +40,11 @@ namespace Infrastructure.Repositories.UserCredentialsRepository
             return userCredentials;
         }
 
-        public async Task<UserCredentials> UpdateAsync(UserCredentials t)
+        public async Task<UserCredentials> UpdateAsync(UserCredentials userCredentials)
         {
-           _dbContext.UserCredentials.Update(t);
+           _dbContext.UserCredentials.Update(userCredentials);
 
-            return t;
+            return userCredentials;
         }
     }
 }

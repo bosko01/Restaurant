@@ -1,5 +1,4 @@
-﻿using Common.Exceptions;
-using Domain.Interfaces.ITable;
+﻿using Domain.Interfaces.ITable;
 using Domain.Models;
 using Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
@@ -15,11 +14,11 @@ namespace Infrastructure.Repositories.TableRepository
             _dbContext = dbContext;
         }
 
-        public async Task<Table> CreateNewAsync(Table t)
+        public async Task<Table> CreateNewAsync(Table table)
         {
-            await _dbContext.AddAsync(t);
+            await _dbContext.AddAsync(table);
 
-            return t;
+            return table;
         }
 
         public async Task DeleteAsync(Table table)
@@ -37,10 +36,10 @@ namespace Infrastructure.Repositories.TableRepository
             return await _dbContext.Tables.FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task<Table> UpdateAsync(Table t)
+        public async Task<Table> UpdateAsync(Table table)
         {
-            var table = _dbContext.Tables.Update(t);
-            return t;
+            _dbContext.Tables.Update(table);
+            return table;
         }
     }
 }

@@ -27,13 +27,13 @@ namespace Domain.Models
         public List<Table> Tables { get; private set; }
 
         private Restaurant()
-        { 
+        {
             Id = Guid.Empty;
             Name = string.Empty;
             Description = string.Empty;
             Location = string.Empty;
-            Email = Email.Create(string.Empty);
-            Phone = PhoneNumber.Create(string.Empty, string.Empty);
+            Email = default!;
+            Phone = default!;
             Menu = string.Empty;
             Category = new();
             Reviews = new();
@@ -77,6 +77,36 @@ namespace Domain.Models
             }
 
             return new Restaurant(Guid.NewGuid(), name, description, location, email, countryCode, phone, menu);
+        }
+
+        public void Update(string name, string description, string location, string email, string countryCode, string phoneNumber, string menu)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                throw new BussinessRuleValidationExeption("Name is required value for restaurant");
+            }
+
+            if (string.IsNullOrWhiteSpace(description))
+            {
+                throw new BussinessRuleValidationExeption("Description is required for restaurant");
+            }
+
+            if (string.IsNullOrWhiteSpace(location))
+            {
+                throw new BussinessRuleValidationExeption("Location is required for restaurant");
+            }
+
+            if (string.IsNullOrWhiteSpace(menu))
+            {
+                throw new BussinessRuleValidationExeption("Menu is required for restaurant");
+            }
+
+            Name = name;
+            Description = description;
+            Location = location;
+            Menu = menu;
+            Email = Email.Create(email);
+            Phone = PhoneNumber.Create(countryCode, phoneNumber);
         }
     }
 }
