@@ -13,7 +13,6 @@ namespace Domain.ValueObjects
             mailAddress = string.Empty;
         }
 
-        [JsonConstructor]
         private Email(string mailAddress)
         {
             this.mailAddress = mailAddress;

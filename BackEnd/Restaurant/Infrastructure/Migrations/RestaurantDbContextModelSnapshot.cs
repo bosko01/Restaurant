@@ -96,6 +96,12 @@ namespace Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(20)");
 
+                    b.Property<TimeOnly>("WorkingHoursFrom")
+                        .HasColumnType("time");
+
+                    b.Property<TimeOnly>("WorkingHoursTo")
+                        .HasColumnType("time");
+
                     b.HasKey("Id");
 
                     b.ToTable("Restaurants", (string)null);

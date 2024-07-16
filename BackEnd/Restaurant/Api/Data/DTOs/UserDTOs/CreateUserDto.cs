@@ -1,5 +1,5 @@
 ﻿using Api.Data.DTOs.ComonDto;
-using Common.Exceptions.RegexValidation;
+using Common.Validation.RegexValidation;
 using System.ComponentModel.DataAnnotations;
 
 namespace Api.Data.DTOs.UserDTOs
@@ -17,7 +17,8 @@ namespace Api.Data.DTOs.UserDTOs
         public string Email { get; set; } = string.Empty;
 
         [Required(AllowEmptyStrings = false)]
-        [RegularExpression(RegexValidation.Password, ErrorMessage = "Invalid password")]
+        [MaxLength(15, ErrorMessage = "Password cannot exceed 15 characters.")]
+        // [RegularExpression(RegexValidation.Password, ErrorMessage = "Invalid password")]
         public string Password { get; set; } = string.Empty;
 
         [Required(AllowEmptyStrings = false)]

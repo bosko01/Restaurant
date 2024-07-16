@@ -28,7 +28,7 @@ namespace Domain.Models
             Restaurant = default;
         }
 
-        public static Table Create(Restaurant restaurant, int seats)
+        public static Table Create(Guid restaurantId, int seats)
         {
             if (string.IsNullOrWhiteSpace(seats.ToString()))
             {
@@ -40,7 +40,7 @@ namespace Domain.Models
                 throw new BussinessRuleValidationExeption("Number of seats must be a positive number smaller than 12");
             }
 
-            return new Table(Guid.NewGuid(), restaurant.Id, seats);
+            return new Table(Guid.NewGuid(), restaurantId, seats);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using Common.Exceptions.RegexValidation;
+﻿using Common.Validation.RegexValidation;
 using System.ComponentModel.DataAnnotations;
 
 namespace Api.Data.DTOs.UserDTOs

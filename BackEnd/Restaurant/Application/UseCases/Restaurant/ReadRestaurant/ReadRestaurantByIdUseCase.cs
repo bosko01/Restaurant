@@ -17,7 +17,21 @@ namespace Application.UseCases.Restaurant.ReadRestaurant
 
             public string Name { get; set; } = string.Empty;
 
+            public string Description { get; set; } = string.Empty;
+
+            public string Location { get; set; } = string.Empty;
+
             public string Email { get; set; } = string.Empty;
+
+            public string CountryCode { get; set; } = string.Empty;
+
+            public string Number { get; set; } = string.Empty;
+
+            public string Menu { get; set; } = string.Empty;
+
+            public TimeOnly WorkingHoursFrom { get; set; }
+
+            public TimeOnly WorkingHoursTo { get; set; }
         }
 
         public class UseCase : IRequestHandler<Request, Response>
@@ -31,7 +45,7 @@ namespace Application.UseCases.Restaurant.ReadRestaurant
 
             public async Task<Response> Handle(Request request, CancellationToken cancellationToken)
             {
-                var restaurant = await _restaurantRepository.GetByIdAsync(request.Id);
+                Domain.Models.Restaurant? restaurant = await _restaurantRepository.GetByIdAsync(request.Id);
 
                 if (restaurant is null)
                 {
@@ -42,7 +56,14 @@ namespace Application.UseCases.Restaurant.ReadRestaurant
                 {
                     Id = restaurant.Id,
                     Name = restaurant.Name,
-                    Email = restaurant.Email.ToString()
+                    Description = restaurant.Description,
+                    Location = restaurant.Location,
+                    Email = restaurant.Email.ToString(),
+                    CountryCode = restaurant.Phone.CountryCode,
+                    Number = restaurant.Phone.Number,
+                    Menu = restaurant.Menu,
+                    WorkingHoursFrom = restaurant.WorkingHoursFrom,
+                    WorkingHoursTo = restaurant.WorkingHoursTo
                 };
             }
         }

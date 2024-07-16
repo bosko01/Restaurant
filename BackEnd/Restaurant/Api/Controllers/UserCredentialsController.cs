@@ -1,4 +1,5 @@
-﻿using Application.UseCases.UserCredentials;
+﻿using Api.Data.DTOs.UserCredentials;
+using Application.UseCases.UserCredentials;
 using Common.Exceptions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -21,12 +22,12 @@ namespace Api.Controllers
         [ProducesResponseType(400, Type = typeof(ErrorDetails))]
         [ProducesResponseType(404, Type = typeof(ErrorDetails))]
         [ProducesResponseType(409, Type = typeof(ErrorDetails))]
-        public async Task<IActionResult> UpdatePassword([FromRoute] Guid id, string password)
+        public async Task<IActionResult> UpdatePassword([FromRoute] Guid id, [FromBody] UpdateUserCredentialsDto updateUserCredentialsDto)
         {
             var request = new UpdatePasswordUseCase.Request()
             {
                 Id = id,
-                Password = password
+                Password = updateUserCredentialsDto.Password
             };
 
             var response = await _mediator.Send(request);

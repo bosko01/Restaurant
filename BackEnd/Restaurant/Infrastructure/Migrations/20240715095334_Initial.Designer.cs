@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(RestaurantDbContext))]
-    [Migration("20240708093531_Initial")]
+    [Migration("20240715095334_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -98,6 +98,12 @@ namespace Infrastructure.Migrations
                     b.Property<string>("Phone")
                         .IsRequired()
                         .HasColumnType("nvarchar(20)");
+
+                    b.Property<TimeOnly>("WorkingHoursFrom")
+                        .HasColumnType("time");
+
+                    b.Property<TimeOnly>("WorkingHoursTo")
+                        .HasColumnType("time");
 
                     b.HasKey("Id");
 

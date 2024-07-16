@@ -22,6 +22,10 @@ namespace Application.UseCases.Restaurant.CreateRestaurant
             public string Number { get; set; } = string.Empty;
 
             public string Menu { get; set; } = string.Empty;
+
+            public TimeOnly WorkingHoursFrom { get; set; }
+
+            public TimeOnly WorkingHoursTo { get; set; }
         }
 
         public class Response
@@ -30,7 +34,21 @@ namespace Application.UseCases.Restaurant.CreateRestaurant
 
             public string Name { get; set; } = string.Empty;
 
+            public string Description { get; set; } = string.Empty;
+
+            public string Location { get; set; } = string.Empty;
+
             public string Email { get; set; } = string.Empty;
+
+            public string CountryCode { get; set; } = string.Empty;
+
+            public string Number { get; set; } = string.Empty;
+
+            public string Menu { get; set; } = string.Empty;
+
+            public TimeOnly WorkingHoursFrom { get; set; }
+
+            public TimeOnly WorkingHoursTo { get; set; }
         }
 
         public class UseCase : IRequestHandler<Request, Response>
@@ -46,7 +64,7 @@ namespace Application.UseCases.Restaurant.CreateRestaurant
 
             public async Task<Response> Handle(Request request, CancellationToken cancellationToken)
             {
-                var restaurant = Domain.Models.Restaurant.Create(request.Name, request.Description, request.Location, Email.Create(request.Email).ToString(), request.CountryCode, request.Number, request.Menu);
+                Domain.Models.Restaurant restaurant = Domain.Models.Restaurant.Create(request.Name, request.Description, request.Location, Email.Create(request.Email).ToString(), request.CountryCode, request.Number, request.Menu, request.WorkingHoursFrom, request.WorkingHoursTo);
 
                 await _restaurantRepository.CreateNewAsync(restaurant);
 
@@ -56,7 +74,14 @@ namespace Application.UseCases.Restaurant.CreateRestaurant
                 {
                     Id = restaurant.Id,
                     Name = restaurant.Name,
-                    Email = restaurant.Email.ToString()
+                    Description = restaurant.Description,
+                    Location = restaurant.Location,
+                    Email = restaurant.Email.ToString(),
+                    CountryCode = restaurant.Phone.CountryCode,
+                    Number = restaurant.Phone.Number,
+                    Menu = restaurant.Menu,
+                    WorkingHoursFrom = restaurant.WorkingHoursFrom,
+                    WorkingHoursTo = restaurant.WorkingHoursTo
                 };
             }
         }

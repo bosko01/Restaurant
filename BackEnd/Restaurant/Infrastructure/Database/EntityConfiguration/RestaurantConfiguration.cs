@@ -39,10 +39,18 @@ namespace Infrastructure.Database.EntityConfiguration
                 .HasColumnType("nvarchar(255)")
                 .IsRequired();
 
+            builder.Property(x => x.WorkingHoursFrom)
+                .HasColumnType("time")
+                .IsRequired();
+
+            builder.Property(x => x.WorkingHoursTo)
+                .HasColumnType("time")
+                .IsRequired();
+
             builder.Property(r => r.Category)
-                        .HasConversion(new EnumListToStringConverter<ERestaurantCategories>())
-                        .HasColumnName("Category")
-                        .IsRequired();
+                 .HasConversion(new EnumListToStringConverter<ERestaurantCategories>())
+                 .HasColumnName("Category")
+                 .IsRequired();
 
             builder.HasMany(r => r.Reviews)
             .WithOne(re => re.Restaurant)

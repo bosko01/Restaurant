@@ -22,6 +22,8 @@ namespace Infrastructure.Migrations
                     Email = table.Column<string>(type: "nvarchar(50)", nullable: false),
                     Phone = table.Column<string>(type: "nvarchar(20)", nullable: false),
                     Menu = table.Column<string>(type: "nvarchar(255)", nullable: false),
+                    WorkingHoursFrom = table.Column<TimeOnly>(type: "time", nullable: false),
+                    WorkingHoursTo = table.Column<TimeOnly>(type: "time", nullable: false),
                     Category = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>

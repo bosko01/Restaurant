@@ -1,5 +1,4 @@
-﻿using Common.Exceptions.RegexValidation;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Api.Data.DTOs.ComonDto
 {

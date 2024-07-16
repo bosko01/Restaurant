@@ -1,5 +1,4 @@
 ﻿using Api.Data.DTOs.RestaurantDto;
-using Api.Data.DTOs.UserDTOs;
 using Application.UseCases.Restaurant.CreateRestaurant;
 using Application.UseCases.Restaurant.DeleteRestaurant;
 using Application.UseCases.Restaurant.ReadRestaurant;
@@ -46,16 +45,14 @@ namespace Api.Controllers
 
             var result = await _mediator.Send(query);
 
-            var resultDto = result.Restaurants.Adapt<List<ReadRestaurantDto>>();
-
-            return Ok(resultDto);
+            return Ok(result.Restaurants.Adapt<List<ReadRestaurantDto>>());
         }
 
         [HttpDelete("{id}")]
         [ProducesResponseType(200, Type = typeof(Guid))]
         [ProducesResponseType(400, Type = typeof(ErrorDetails))]
         [ProducesResponseType(404, Type = typeof(ErrorDetails))]
-        public async Task<IActionResult> DeleteUser([FromRoute] Guid id)
+        public async Task<IActionResult> DeleteRestaurant([FromRoute] Guid id)
         {
             var request = new DeleteRestaurantUseCase.Request { Id = id };
 
@@ -68,7 +65,7 @@ namespace Api.Controllers
         [ProducesResponseType(200, Type = typeof(ReadRestaurantDto))] // ok
         [ProducesResponseType(400, Type = typeof(ErrorDetails))] // bad req
         [ProducesResponseType(409, Type = typeof(ErrorDetails))] // conflict
-        public async Task<IActionResult> GetUserById([FromRoute] Guid id)
+        public async Task<IActionResult> GetRestaurantById([FromRoute] Guid id)
         {
             var request = new ReadRestaurantByIdUseCase.Request { Id = id };
 
@@ -84,7 +81,7 @@ namespace Api.Controllers
         [ProducesResponseType(400, Type = typeof(ErrorDetails))]
         [ProducesResponseType(404, Type = typeof(ErrorDetails))]
         [ProducesResponseType(409, Type = typeof(ErrorDetails))]
-        public async Task<IActionResult> UpdateUser([FromBody] UpdateRestaurantDto updateRestausentDto, [FromRoute] Guid id)
+        public async Task<IActionResult> UpdateRestaurant([FromBody] UpdateRestaurantDto updateRestausentDto, [FromRoute] Guid id)
         {
             var request = new UpdateRestaurantUseCase.Request()
             {
@@ -95,12 +92,14 @@ namespace Api.Controllers
                 Email = updateRestausentDto.Email,
                 CountryCode = updateRestausentDto.CountryCode,
                 PhoneNumber = updateRestausentDto.PhoneNumber,
-                Menu = updateRestausentDto.Menu
+                Menu = updateRestausentDto.Menu,
+                WorkingHoursFrom = updateRestausentDto.WorkingHoursFrom,
+                WorkingHoursTo = updateRestausentDto.WorkingHoursTo
             };
 
             var response = await _mediator.Send(request);
 
-            return Ok(response.Adapt<ReadUserDto>());
+            return Ok(response.Adapt<ReadRestaurantDto>());
         }
     }
 }

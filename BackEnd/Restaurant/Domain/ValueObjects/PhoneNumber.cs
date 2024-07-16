@@ -10,7 +10,6 @@ namespace Domain.ValueObjects
 
         public string Number { get; private set; }
 
-        [JsonConstructor]
         private PhoneNumber(string countryCode, string number)
         {
             CountryCode = countryCode;

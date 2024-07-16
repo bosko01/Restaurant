@@ -27,7 +27,21 @@ namespace Application.UseCases.Restaurant.ReadRestaurant
 
             public string Name { get; set; } = string.Empty;
 
+            public string Description { get; set; } = string.Empty;
+
+            public string Location { get; set; } = string.Empty;
+
             public string Email { get; set; } = string.Empty;
+
+            public string CountryCode { get; set; } = string.Empty;
+
+            public string Number { get; set; } = string.Empty;
+
+            public string Menu { get; set; } = string.Empty;
+
+            public TimeOnly WorkingHoursFrom { get; set; }
+
+            public TimeOnly WorkingHoursTo { get; set; }
         }
 
         public class UseCase : IRequestHandler<Request, Response>
@@ -41,14 +55,14 @@ namespace Application.UseCases.Restaurant.ReadRestaurant
 
             public async Task<Response> Handle(Request request, CancellationToken cancellationToken)
             {
-                var restaurants = await _restaurantRepository.GetAllAsync();
+                List<Domain.Models.Restaurant>? restaurants = await _restaurantRepository.GetAllAsync();
 
                 if (restaurants is null)
                 {
                     throw new EntityNotFoundException("Restaurants not found");
                 }
 
-                var returnValue = restaurants.Adapt<List<RestaurantResponse>>();
+                List<RestaurantResponse> returnValue = restaurants.Adapt<List<RestaurantResponse>>();
 
                 return new Response(returnValue);
             }

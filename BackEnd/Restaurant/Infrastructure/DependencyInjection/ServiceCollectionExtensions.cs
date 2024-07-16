@@ -1,17 +1,21 @@
 ﻿using Application.Interfaces;
 using Domain.Interfaces;
 using Domain.Interfaces.IRestaurant;
+using Domain.Interfaces.ITable;
 using Domain.Interfaces.IUser;
 using Domain.Interfaces.IUserCredentials;
 using Infrastructure.Database;
 using Infrastructure.Helper;
+using Infrastructure.Queries.Table;
 using Infrastructure.Repositories.RestaurantRepository;
+using Infrastructure.Repositories.TableRepository;
 using Infrastructure.Repositories.UnitOfWork;
 using Infrastructure.Repositories.UserCredentialsRepository;
 using Infrastructure.Repositories.UserRepository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using static Application.Queries.Table.ReadAllRestaurantTables;
 
 namespace Infrastructure.DependencyInjection
 {
@@ -24,6 +28,7 @@ namespace Infrastructure.DependencyInjection
             services.AddScoped<IPasswordService, PasswordService>();
 
             services.AddDatabase(configuration);
+            services.AddQueries();
 
             return services;
         }
@@ -33,6 +38,7 @@ namespace Infrastructure.DependencyInjection
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserCredentialsRepository, UserCredentialsRepository>();
             services.AddScoped<IRestaurantRepository, RestaurantRepository>();
+            services.AddScoped<ITableRepository, TableRepository>();
 
             return services;
         }
@@ -44,6 +50,13 @@ namespace Infrastructure.DependencyInjection
                 configuration.GetConnectionString("DatabaseConnection"),
                 b => b.MigrationsAssembly("Infrastructure")
             ));
+
+            return services;
+        }
+
+        private static IServiceCollection AddQueries(this IServiceCollection services)
+        {
+            services.AddScoped<IReadAllRestaurantTablesQuery, ReadAllRestaurantTablesQuery>();
 
             return services;
         }

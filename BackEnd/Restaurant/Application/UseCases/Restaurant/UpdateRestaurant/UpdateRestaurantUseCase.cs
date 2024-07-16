@@ -24,10 +24,16 @@ namespace Application.UseCases.Restaurant.UpdateRestaurant
             public string PhoneNumber { get; set; } = string.Empty;
 
             public string Menu { get; set; } = string.Empty;
+
+            public TimeOnly WorkingHoursFrom { get; set; }
+
+            public TimeOnly WorkingHoursTo { get; set; }
         }
 
         public class Response
         {
+            public Guid Id { get; set; }
+
             public string Name { get; set; } = string.Empty;
 
             public string Description { get; set; } = string.Empty;
@@ -41,6 +47,10 @@ namespace Application.UseCases.Restaurant.UpdateRestaurant
             public string PhoneNumber { get; set; } = string.Empty;
 
             public string Menu { get; set; } = string.Empty;
+
+            public TimeOnly WorkingHoursFrom { get; set; }
+
+            public TimeOnly WorkingHoursTo { get; set; }
         }
 
         public class UseCase : IRequestHandler<Request, Response>
@@ -56,7 +66,7 @@ namespace Application.UseCases.Restaurant.UpdateRestaurant
 
             public async Task<Response> Handle(Request request, CancellationToken cancellationToken)
             {
-                var restaurantUpdate = await _restaurantRepository.GetByIdAsync(request.Id);
+                Domain.Models.Restaurant? restaurantUpdate = await _restaurantRepository.GetByIdAsync(request.Id);
 
                 if (restaurantUpdate is null)
                 {
@@ -70,20 +80,25 @@ namespace Application.UseCases.Restaurant.UpdateRestaurant
                     request.Email,
                     request.CountryCode,
                     request.PhoneNumber,
-                    request.Menu
+                    request.Menu,
+                    request.WorkingHoursFrom,
+                    request.WorkingHoursTo
                     );
 
                 _unitOfWork.SaveChangesAsync();
 
                 return new Response
                 {
+                    Id = request.Id,
                     Name = restaurantUpdate.Name,
                     Description = restaurantUpdate.Description,
                     Location = restaurantUpdate.Location,
                     Email = restaurantUpdate.Email.ToString(),
                     CountryCode = restaurantUpdate.Phone.CountryCode,
                     PhoneNumber = restaurantUpdate.Phone.Number,
-                    Menu = restaurantUpdate.Menu
+                    Menu = restaurantUpdate.Menu,
+                    WorkingHoursFrom = restaurantUpdate.WorkingHoursFrom,
+                    WorkingHoursTo = restaurantUpdate.WorkingHoursTo
                 };
             }
         }
