@@ -1,4 +1,5 @@
 ﻿using Api.Data.DTOs.RestaurantDto;
+using Application.Queries.Restaurant;
 using Application.UseCases.Restaurant.CreateRestaurant;
 using Application.UseCases.Restaurant.DeleteRestaurant;
 using Application.UseCases.Restaurant.ReadRestaurant;
@@ -7,6 +8,7 @@ using Common.Exceptions;
 using Mapster;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using static Application.Queries.Restaurant.ReadAllRestaurants;
 
 namespace Api.Controllers
 {
@@ -15,10 +17,12 @@ namespace Api.Controllers
     public class RestaurantController : Controller
     {
         private readonly IMediator _mediator;
+        private IReadAllRestaurantsQuery _readAllRestaurantsQuery;
 
-        public RestaurantController(IMediator mediator)
+        public RestaurantController(IMediator mediator, IReadAllRestaurantsQuery readAllRestaurantsQuery)
         {
             _mediator = mediator;
+            _readAllRestaurantsQuery = readAllRestaurantsQuery;
         }
 
         [HttpPost]
@@ -39,11 +43,15 @@ namespace Api.Controllers
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<ReadRestaurantDto>))]
         [ProducesResponseType(404, Type = typeof(ErrorDetails))] // not found
-        public async Task<IActionResult> GetAllRestaurants()
+        public async Task<IActionResult> GetAllRestaurantsPaginated([FromQuery] int skipNumber, [FromQuery] int pageSize)
         {
-            var query = new ReadRestaurantsUseCase.Request();
+            var query = new ReadAllRestaurants.Request
+            {
+                PagesToSkip = skipNumber,
+                ItemsPerPage = pageSize,
+            };
 
-            var result = await _mediator.Send(query);
+            var result = await _readAllRestaurantsQuery.Execute(query);
 
             return Ok(result.Restaurants.Adapt<List<ReadRestaurantDto>>());
         }

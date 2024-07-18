@@ -30,7 +30,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+app.UseHttpsRedirection();  //says u must use https
 
 app.UseMiddleware<ErrorHandlingMiddleware>();
 

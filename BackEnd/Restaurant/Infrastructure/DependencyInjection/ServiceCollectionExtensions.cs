@@ -6,7 +6,9 @@ using Domain.Interfaces.IUser;
 using Domain.Interfaces.IUserCredentials;
 using Infrastructure.Database;
 using Infrastructure.Helper;
+using Infrastructure.Queries.RestaurantQueries;
 using Infrastructure.Queries.Table;
+using Infrastructure.Queries.User;
 using Infrastructure.Repositories.RestaurantRepository;
 using Infrastructure.Repositories.TableRepository;
 using Infrastructure.Repositories.UnitOfWork;
@@ -15,7 +17,9 @@ using Infrastructure.Repositories.UserRepository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using static Application.Queries.Restaurant.ReadAllRestaurants;
 using static Application.Queries.Table.ReadAllRestaurantTables;
+using static Application.Queries.UserQueries.ReadUsersPaginated;
 
 namespace Infrastructure.DependencyInjection
 {
@@ -57,6 +61,9 @@ namespace Infrastructure.DependencyInjection
         private static IServiceCollection AddQueries(this IServiceCollection services)
         {
             services.AddScoped<IReadAllRestaurantTablesQuery, ReadAllRestaurantTablesQuery>();
+            services.AddScoped<IReadUsersPaginatedQuery, ReadUsersPaginatedQuery>();
+            services.AddScoped<IReadAllRestaurantsQuery, ReadAllRestaurantQuery>();
+
 
             return services;
         }

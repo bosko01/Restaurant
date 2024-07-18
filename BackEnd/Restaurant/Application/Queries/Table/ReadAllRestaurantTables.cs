@@ -7,6 +7,10 @@ namespace Application.Queries.Table
         public class Request
         {
             public Guid RestaurantId { get; set; }
+
+            public int PagesToSkip { get; set; }
+
+            public int ItemsPerPage { get; set; }
         }
 
         public class Response

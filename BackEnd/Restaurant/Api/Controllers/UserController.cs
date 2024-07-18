@@ -1,4 +1,5 @@
 ﻿using Api.Data.DTOs.UserDTOs;
+using Application.Queries.UserQueries;
 using Application.UseCases.Users.CreateUser;
 using Application.UseCases.Users.DeleteUser;
 using Application.UseCases.Users.ReadUser;
@@ -7,6 +8,7 @@ using Common.Exceptions;
 using Mapster;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using static Application.Queries.UserQueries.ReadUsersPaginated;
 
 namespace Api.Controllers
 {
@@ -15,20 +17,26 @@ namespace Api.Controllers
     public class UserController : Controller
     {
         private readonly IMediator _mediator;
+        private IReadUsersPaginatedQuery _readUsersPaginatedQuery;
 
-        public UserController(IMediator mediator)
+        public UserController(IMediator mediator, IReadUsersPaginatedQuery readUsersPaginatedQuery)
         {
             _mediator = mediator;
+            _readUsersPaginatedQuery = readUsersPaginatedQuery;
         }
 
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<ReadUserDto>))]
         [ProducesResponseType(404, Type = typeof(ErrorDetails))] // not found
-        public async Task<IActionResult> GetAllUsers()
+        public async Task<IActionResult> GetAllUsersPagianted([FromQuery] int pagesToSkip, [FromQuery] int itemsPerPage)
         {
-            var query = new ReadUserUseCase.Request();
+            var query = new ReadUsersPaginated.Request()
+            {
+                PagesToSkip = pagesToSkip,
+                ItemsPerPage = itemsPerPage
+            };
 
-            var result = await _mediator.Send(query);
+            var result = await _readUsersPaginatedQuery.Execute(query);
 
             var resultDto = result.Users.Adapt<List<ReadUserDto>>();
 

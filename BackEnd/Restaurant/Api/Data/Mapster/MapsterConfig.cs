@@ -2,6 +2,7 @@
 using Api.Data.DTOs.RestaurantDto;
 using Api.Data.DTOs.Table;
 using Api.Data.DTOs.UserDTOs;
+using Application.Queries.UserQueries;
 using Application.UseCases.Restaurant._Table.AddTable;
 using Application.UseCases.Restaurant.CreateRestaurant;
 using Application.UseCases.Restaurant.UpdateRestaurant;
@@ -161,6 +162,7 @@ namespace Api.Data.Mapster
                 .Map(dest => dest.Id, src => src.TableId)
                 .Map(dest => dest.Seats, src => src.NumberOfSeats);
 
+            TypeAdapterConfig<ReadUsersPaginated.Response, ReadTableDto>.NewConfig();
 
         }
     }

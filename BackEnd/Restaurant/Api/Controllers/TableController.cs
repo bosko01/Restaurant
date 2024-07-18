@@ -26,11 +26,13 @@ namespace Api.Controllers
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<ReadTableDto>))]
         [ProducesResponseType(404, Type = typeof(ErrorDetails))] // not found
-        public async Task<IActionResult> GetAllTablesFromRestaurant([FromRoute] Guid restaurantId)
+        public async Task<IActionResult> GetAllTablesFromRestaurant([FromRoute] Guid restaurantId, [FromQuery] int pagesToSkip, [FromQuery] int itemsPerPage)
         {
             var request = new ReadAllRestaurantTables.Request()
             {
-                RestaurantId = restaurantId
+                RestaurantId = restaurantId,
+                PagesToSkip = pagesToSkip,
+                ItemsPerPage = itemsPerPage
             };
 
             var result = await _readAllRestaurantTablesQuery.Execute(request);

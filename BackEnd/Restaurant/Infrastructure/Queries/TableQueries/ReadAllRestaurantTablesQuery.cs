@@ -24,7 +24,8 @@ namespace Infrastructure.Queries.Table
                 throw new EntityNotFoundException("Restaurant not found");
             }
 
-            var tables = await _dbContext.Tables.Where(t => t.RestaurantId == restaurant.Id).ToListAsync();
+            var pagination = new Pagination(request.PagesToSkip, request.ItemsPerPage);
+            var tables = await _dbContext.Tables.Where(t => t.RestaurantId == restaurant.Id).Skip(pagination.SkipNumber).Take(pagination.ItemsPerPage).ToListAsync();
 
             return new Response
             {
