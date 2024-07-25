@@ -1,8 +1,5 @@
-﻿using Application.UseCases._Common.Enum;
-using Common.Exceptions;
+﻿using Common.Exceptions;
 using Domain.Interfaces.IUser;
-using Domain.Models;
-using Domain.ValueObjects;
 using MediatR;
 
 namespace Application.UseCases.Users.ReadUser
@@ -16,13 +13,16 @@ namespace Application.UseCases.Users.ReadUser
 
         public class Response
         {
-            public Guid Id { get; set; } 
+            public Guid Id { get; set; }
 
             public string FirstName { get; set; } = string.Empty;
 
             public string LastName { get; set; } = string.Empty;
 
             public string Phone { get; set; } = string.Empty;
+
+            public string? ImageUrl { get; set; } = string.Empty;
+
         }
 
         public class UseCase : IRequestHandler<Request, Response>
@@ -49,6 +49,7 @@ namespace Application.UseCases.Users.ReadUser
                     FirstName = user.FirstName,
                     LastName = user.LastName,
                     Phone = user.Phone.ToString(),
+                    ImageUrl = user.ImageUrl,
                 };
             }
         }

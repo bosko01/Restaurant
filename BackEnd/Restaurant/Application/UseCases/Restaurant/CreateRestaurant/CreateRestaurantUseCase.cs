@@ -21,8 +21,6 @@ namespace Application.UseCases.Restaurant.CreateRestaurant
 
             public string Number { get; set; } = string.Empty;
 
-            public string Menu { get; set; } = string.Empty;
-
             public TimeOnly WorkingHoursFrom { get; set; }
 
             public TimeOnly WorkingHoursTo { get; set; }
@@ -44,8 +42,6 @@ namespace Application.UseCases.Restaurant.CreateRestaurant
 
             public string Number { get; set; } = string.Empty;
 
-            public string Menu { get; set; } = string.Empty;
-
             public TimeOnly WorkingHoursFrom { get; set; }
 
             public TimeOnly WorkingHoursTo { get; set; }
@@ -64,7 +60,7 @@ namespace Application.UseCases.Restaurant.CreateRestaurant
 
             public async Task<Response> Handle(Request request, CancellationToken cancellationToken)
             {
-                Domain.Models.Restaurant restaurant = Domain.Models.Restaurant.Create(request.Name, request.Description, request.Location, Email.Create(request.Email).ToString(), request.CountryCode, request.Number, request.Menu, request.WorkingHoursFrom, request.WorkingHoursTo);
+                Domain.Models.Restaurant restaurant = Domain.Models.Restaurant.Create(request.Name, request.Description, request.Location, Email.Create(request.Email).ToString(), request.CountryCode, request.Number, request.WorkingHoursFrom, request.WorkingHoursTo);
 
                 await _restaurantRepository.CreateNewAsync(restaurant);
 
@@ -79,7 +75,6 @@ namespace Application.UseCases.Restaurant.CreateRestaurant
                     Email = restaurant.Email.ToString(),
                     CountryCode = restaurant.Phone.CountryCode,
                     Number = restaurant.Phone.Number,
-                    Menu = restaurant.Menu,
                     WorkingHoursFrom = restaurant.WorkingHoursFrom,
                     WorkingHoursTo = restaurant.WorkingHoursTo
                 };

@@ -18,7 +18,7 @@ namespace Domain.Models
 
         public PhoneNumber Phone { get; private set; }
 
-        public string Menu { get; private set; }
+        public string MenuUrl { get; private set; }
 
         public TimeOnly WorkingHoursFrom { get; private set; }
 
@@ -38,7 +38,7 @@ namespace Domain.Models
             Location = string.Empty;
             Email = default!;
             Phone = default!;
-            Menu = string.Empty;
+            MenuUrl = string.Empty;
             WorkingHoursFrom = default;
             WorkingHoursTo = default;
             Category = new();
@@ -46,7 +46,7 @@ namespace Domain.Models
             Tables = new();
         }
 
-        private Restaurant(Guid id, string name, string description, string location, string email, string countryCode, string phoneNumber, string menu, TimeOnly workingHoursFrom, TimeOnly workingHoursTo)
+        private Restaurant(Guid id, string name, string description, string location, string email, string countryCode, string phoneNumber, TimeOnly workingHoursFrom, TimeOnly workingHoursTo)
         {
             Id = id;
             Name = name;
@@ -54,7 +54,7 @@ namespace Domain.Models
             Location = location;
             Email = Email.Create(email);
             Phone = PhoneNumber.Create(countryCode, phoneNumber);
-            Menu = menu;
+            MenuUrl = string.Empty;
             WorkingHoursFrom = workingHoursFrom;
             WorkingHoursTo = workingHoursTo;
             Category = new List<ERestaurantCategories>();
@@ -62,7 +62,7 @@ namespace Domain.Models
             Tables = new List<Table>();
         }
 
-        public static Restaurant Create(string name, string description, string location, string email, string countryCode, string phone, string menu, TimeOnly workingHoursFrom, TimeOnly workingHoursTo)
+        public static Restaurant Create(string name, string description, string location, string email, string countryCode, string phone, TimeOnly workingHoursFrom, TimeOnly workingHoursTo)
         {
             if (string.IsNullOrWhiteSpace(name))
             {
@@ -79,15 +79,12 @@ namespace Domain.Models
                 throw new BussinessRuleValidationExeption("Location is required for restaurant");
             }
 
-            if (string.IsNullOrWhiteSpace(menu))
-            {
-                throw new BussinessRuleValidationExeption("Menu is required for restaurant");
-            }
 
-            return new Restaurant(Guid.NewGuid(), name, description, location, email, countryCode, phone, menu, workingHoursFrom, workingHoursTo);
+
+            return new Restaurant(Guid.NewGuid(), name, description, location, email, countryCode, phone, workingHoursFrom, workingHoursTo);
         }
 
-        public void Update(string name, string description, string location, string email, string countryCode, string phoneNumber, string menu, TimeOnly workingHoursFrom, TimeOnly workingHoursTo)
+        public void Update(string name, string description, string location, string email, string countryCode, string phoneNumber, TimeOnly workingHoursFrom, TimeOnly workingHoursTo)
         {
             if (string.IsNullOrWhiteSpace(name))
             {
@@ -104,15 +101,11 @@ namespace Domain.Models
                 throw new BussinessRuleValidationExeption("Location is required for restaurant");
             }
 
-            if (string.IsNullOrWhiteSpace(menu))
-            {
-                throw new BussinessRuleValidationExeption("Menu is required for restaurant");
-            }
+
 
             Name = name;
             Description = description;
             Location = location;
-            Menu = menu;
             Email = Email.Create(email);
             Phone = PhoneNumber.Create(countryCode, phoneNumber);
             WorkingHoursFrom = workingHoursFrom;
@@ -137,6 +130,11 @@ namespace Domain.Models
             }
 
             Tables.Remove(table);
+        }
+
+        public void AddMenuUrl(string menuUrl)
+        {
+            MenuUrl = menuUrl;
         }
     }
 }

@@ -49,6 +49,8 @@ namespace Application.UseCases.Users.CreateUser
             public string CountryCode { get; set; } = string.Empty;
 
             public string Number { get; set; } = string.Empty;
+
+            public string? ImageUrl { get; set; } = string.Empty;
         }
 
         public class UseCase : IRequestHandler<Request, Response>
@@ -90,7 +92,8 @@ namespace Application.UseCases.Users.CreateUser
                     LastName = user.LastName,
                     Email = userCredentials.Email.ToString(),
                     CountryCode = user.Phone.CountryCode,
-                    Number = user.Phone.Number
+                    Number = user.Phone.Number,
+                    ImageUrl = user.ImageUrl,
                 };
 
                 return returnValue;

@@ -35,7 +35,7 @@ namespace Infrastructure.Database.EntityConfiguration
                 .HasColumnType("nvarchar(20)")
                 .IsRequired();
 
-            builder.Property(x => x.Menu)
+            builder.Property(x => x.MenuUrl)
                 .HasColumnType("nvarchar(255)")
                 .IsRequired();
 

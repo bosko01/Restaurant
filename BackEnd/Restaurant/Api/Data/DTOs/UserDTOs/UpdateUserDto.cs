@@ -1,5 +1,4 @@
-﻿using Common.Validation.RegexValidation;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Api.Data.DTOs.UserDTOs
 {
@@ -15,7 +14,6 @@ namespace Api.Data.DTOs.UserDTOs
         public string CountryCode { get; set; } = string.Empty;
 
         [Required(AllowEmptyStrings = false)]
-        [RegularExpression(RegexValidation.NumericsOnly, ErrorMessage = "Invalid Values for phone number")]
         public string Number { get; set; } = string.Empty;
     }
 }

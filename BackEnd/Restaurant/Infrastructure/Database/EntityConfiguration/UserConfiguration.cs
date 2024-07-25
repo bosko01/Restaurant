@@ -28,6 +28,9 @@ namespace Infrastructure.Database.EntityConfiguration
                 .HasColumnType("nvarchar(20)")
                 .IsRequired();
 
+            builder.Property(x => x.ImageUrl)
+               .HasColumnType("nvarchar(255)");
+
             builder.HasOne(x => x.Credentials)
                 .WithOne()
                 .HasForeignKey<User>(x => x.CredentialsId)

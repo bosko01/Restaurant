@@ -37,6 +37,7 @@ namespace Application.UseCases.Restaurant.DeleteRestaurant
                     throw new EntityNotFoundException("User not found");
                 }
 
+
                 await _restaurantRepository.DeleteAsync(restaurant);
 
                 await _unitOfWork.SaveChangesAsync();

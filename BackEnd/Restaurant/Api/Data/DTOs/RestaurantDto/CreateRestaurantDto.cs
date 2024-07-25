@@ -23,9 +23,6 @@ namespace Api.Data.DTOs.RestaurantDto
         public PhoneNumberRequestDto PhoneNumberRequest { get; set; } = new();
 
         [Required(AllowEmptyStrings = false)]
-        public string Menu { get; set; } = string.Empty;
-
-        [Required(AllowEmptyStrings = false)]
         public TimeOnly WorkingHoursFrom { get; set; }
 
         [Required(AllowEmptyStrings = false)]

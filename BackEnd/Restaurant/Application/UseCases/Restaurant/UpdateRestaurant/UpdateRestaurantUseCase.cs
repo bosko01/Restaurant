@@ -23,8 +23,6 @@ namespace Application.UseCases.Restaurant.UpdateRestaurant
 
             public string PhoneNumber { get; set; } = string.Empty;
 
-            public string Menu { get; set; } = string.Empty;
-
             public TimeOnly WorkingHoursFrom { get; set; }
 
             public TimeOnly WorkingHoursTo { get; set; }
@@ -45,8 +43,6 @@ namespace Application.UseCases.Restaurant.UpdateRestaurant
             public string CountryCode { get; set; } = string.Empty;
 
             public string PhoneNumber { get; set; } = string.Empty;
-
-            public string Menu { get; set; } = string.Empty;
 
             public TimeOnly WorkingHoursFrom { get; set; }
 
@@ -80,12 +76,11 @@ namespace Application.UseCases.Restaurant.UpdateRestaurant
                     request.Email,
                     request.CountryCode,
                     request.PhoneNumber,
-                    request.Menu,
                     request.WorkingHoursFrom,
                     request.WorkingHoursTo
                     );
 
-                _unitOfWork.SaveChangesAsync();
+                await _unitOfWork.SaveChangesAsync();
 
                 return new Response
                 {
@@ -96,7 +91,6 @@ namespace Application.UseCases.Restaurant.UpdateRestaurant
                     Email = restaurantUpdate.Email.ToString(),
                     CountryCode = restaurantUpdate.Phone.CountryCode,
                     PhoneNumber = restaurantUpdate.Phone.Number,
-                    Menu = restaurantUpdate.Menu,
                     WorkingHoursFrom = restaurantUpdate.WorkingHoursFrom,
                     WorkingHoursTo = restaurantUpdate.WorkingHoursTo
                 };

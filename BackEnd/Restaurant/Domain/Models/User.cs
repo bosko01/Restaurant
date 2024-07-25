@@ -20,6 +20,8 @@ namespace Domain.Models
 
         public PhoneNumber Phone { get; private set; }
 
+        public string? ImageUrl { get; private set; }
+
         private User()
         {
             CredentialsId = Guid.Empty;
@@ -28,6 +30,7 @@ namespace Domain.Models
             LastName = string.Empty;
             UserType = default;
             Phone = default!;
+            ImageUrl = string.Empty;
         }
 
         private User(Guid id, Guid credentialsId, string firstName, string lastName, EUserType userType, PhoneNumber phone)
@@ -40,7 +43,7 @@ namespace Domain.Models
             Phone = phone;
         }
 
-        public static User Create(string credentialsID, string firstName, string lastName,string userType, string countryCode, string phone)
+        public static User Create(string credentialsID, string firstName, string lastName, string userType, string countryCode, string phone)
         {
             if (string.IsNullOrWhiteSpace(credentialsID))
             {
@@ -64,7 +67,7 @@ namespace Domain.Models
 
             PhoneNumber userPhone = PhoneNumber.Create(countryCode, phone);
 
-            return new User(Guid.NewGuid(), new Guid(credentialsID), firstName, lastName,Enum.Parse<EUserType>(userType), userPhone);
+            return new User(Guid.NewGuid(), new Guid(credentialsID), firstName, lastName, Enum.Parse<EUserType>(userType), userPhone);
         }
 
         public void Update(string firstName, string lastName, string countryCode, string phone)
@@ -82,6 +85,21 @@ namespace Domain.Models
             FirstName = firstName;
             LastName = lastName;
             Phone = PhoneNumber.Create(countryCode, phone);
+        }
+
+        public void AddImage(string imageUrl)
+        {
+            if (string.IsNullOrWhiteSpace(imageUrl))
+            {
+                throw new BussinessRuleValidationExeption("Image is required");
+            }
+
+            ImageUrl = imageUrl;
+        }
+
+        public void RemoveImage()
+        {
+            ImageUrl = string.Empty;
         }
     }
 }

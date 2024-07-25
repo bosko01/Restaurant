@@ -5,6 +5,23 @@ using Infrastructure.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Host.ConfigureAppConfiguration((hostingContext, config) =>
+{
+    config.Sources.Clear();
+
+    var env = hostingContext.HostingEnvironment;
+
+    config.SetBasePath(env.ContentRootPath)
+            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true) //load base settings
+            .AddJsonFile("appsettings.local.json", optional: true, reloadOnChange: true) //load local settings
+            .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);//load environment settings
+
+    if (args != null)
+    {
+        config.AddCommandLine(args);
+    }
+});
+
 builder.Services.RegisterMapsterConfiguration();
 
 // Add services to the container.

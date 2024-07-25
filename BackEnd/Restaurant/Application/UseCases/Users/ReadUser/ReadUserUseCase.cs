@@ -35,15 +35,7 @@ namespace Application.UseCases.Users.ReadUser
 
             public string Phone { get; set; } = string.Empty;
 
-            public UserResponse(Guid id, string firstName, string lastName, string email, string userType, string phone)
-            {
-                Id = id;
-                FirstName = firstName;
-                LastName = lastName;
-                Email = email;
-                UserType = userType;
-                Phone = phone;
-            }
+            public string? ImageUrl { get; set; } = string.Empty;
         }
 
         public class UseCase : IRequestHandler<Request, Response>

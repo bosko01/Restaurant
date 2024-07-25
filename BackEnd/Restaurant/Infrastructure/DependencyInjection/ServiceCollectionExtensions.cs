@@ -1,4 +1,5 @@
 ﻿using Application.Interfaces;
+using Common.Infrastructure;
 using Domain.Interfaces;
 using Domain.Interfaces.IRestaurant;
 using Domain.Interfaces.ITable;
@@ -14,6 +15,8 @@ using Infrastructure.Repositories.TableRepository;
 using Infrastructure.Repositories.UnitOfWork;
 using Infrastructure.Repositories.UserCredentialsRepository;
 using Infrastructure.Repositories.UserRepository;
+using Infrastructure.Services;
+using Infrastructure.Services.FileManager;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -33,6 +36,7 @@ namespace Infrastructure.DependencyInjection
 
             services.AddDatabase(configuration);
             services.AddQueries();
+            services.BindConfiguration(configuration);
 
             return services;
         }
@@ -43,6 +47,7 @@ namespace Infrastructure.DependencyInjection
             services.AddScoped<IUserCredentialsRepository, UserCredentialsRepository>();
             services.AddScoped<IRestaurantRepository, RestaurantRepository>();
             services.AddScoped<ITableRepository, TableRepository>();
+            services.AddScoped<IRouteGenerator, RouteGenerator>();
 
             return services;
         }
@@ -63,7 +68,24 @@ namespace Infrastructure.DependencyInjection
             services.AddScoped<IReadAllRestaurantTablesQuery, ReadAllRestaurantTablesQuery>();
             services.AddScoped<IReadUsersPaginatedQuery, ReadUsersPaginatedQuery>();
             services.AddScoped<IReadAllRestaurantsQuery, ReadAllRestaurantQuery>();
+            services.AddScoped<IFileManager, FileManager>();
 
+            return services;
+        }
+
+        private static IServiceCollection BindConfiguration(this IServiceCollection services, IConfiguration configuration)
+        {
+            var fileStorageRoot = new FileStorageLocations();
+
+            configuration.GetSection(FileStorageLocations.ConfigurationSettingName).Bind(fileStorageRoot);
+
+            services.Configure<FileStorageLocations>(options =>
+            {
+                options.Root = fileStorageRoot.Root;
+                options.RestaurantsFolder = fileStorageRoot.RestaurantsFolder;
+                options.UsersFolder = fileStorageRoot.UsersFolder;
+                options.UserDefaultPhoto = fileStorageRoot.UserDefaultPhoto;
+            });
 
             return services;
         }

@@ -1,10 +1,14 @@
-﻿using Api.Data.DTOs.UserDTOs;
+﻿using Api.Data.DTOs.ComonDto;
+using Api.Data.DTOs.UserDTOs;
 using Application.Queries.UserQueries;
 using Application.UseCases.Users.CreateUser;
 using Application.UseCases.Users.DeleteUser;
 using Application.UseCases.Users.ReadUser;
 using Application.UseCases.Users.UpdateUser;
+using Application.UseCases.Users.UpdateUser.AddImage;
+using Application.UseCases.Users.UpdateUser.RemoveImage;
 using Common.Exceptions;
+using Common.Infrastructure.File;
 using Mapster;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -132,6 +136,45 @@ namespace Api.Controllers
             var response = await _mediator.Send(request);
 
             return Ok(response.Adapt<ReadUserDto>());
+        }
+
+        [HttpPatch("{userId}/image")]
+        [ProducesResponseType(200, Type = typeof(ReadUserDto))] // ok
+        [ProducesResponseType(400, Type = typeof(ErrorDetails))] // bad req
+        [ProducesResponseType(409, Type = typeof(ErrorDetails))] // conflict
+        public async Task<IActionResult> AddUserImage([FromForm] FileRequest? formFile, [FromRoute] Guid userId)
+        {
+            if (formFile is null || formFile.File is null || formFile.File.Length <= 0)
+            {
+                var request = new RemoveUserImageUseCase.Request
+                {
+                    UserId = userId
+                };
+
+                var result = await _mediator.Send(request);
+
+                return Ok(result.Adapt<ReadUserDto>());
+            }
+            else
+            {
+                var formFileDto = new AddUserImageUseCase.UserFileRequest
+                {
+                    FileName = formFile.File!.FileName,
+                    ContentType = formFile.File.ContentType,
+                    Length = formFile.File.Length,
+                    Content = await FileContentConverter.ConvertToByteArrayAsync(formFile.File)
+                };
+
+                var request = new AddUserImageUseCase.Request
+                {
+                    File = formFileDto,
+                    UserId = userId
+                };
+
+                var result = await _mediator.Send(request);
+
+                return Ok(result.Adapt<ReadUserDto>());
+            }
         }
     }
 }

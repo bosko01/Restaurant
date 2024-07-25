@@ -1,10 +1,13 @@
-﻿using Api.Data.DTOs.RestaurantDto;
+﻿using Api.Data.DTOs.ComonDto;
+using Api.Data.DTOs.RestaurantDto;
 using Application.Queries.Restaurant;
+using Application.UseCases.Restaurant.AddMenu;
 using Application.UseCases.Restaurant.CreateRestaurant;
 using Application.UseCases.Restaurant.DeleteRestaurant;
 using Application.UseCases.Restaurant.ReadRestaurant;
 using Application.UseCases.Restaurant.UpdateRestaurant;
 using Common.Exceptions;
+using Common.Infrastructure.File;
 using Mapster;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -100,7 +103,6 @@ namespace Api.Controllers
                 Email = updateRestausentDto.Email,
                 CountryCode = updateRestausentDto.CountryCode,
                 PhoneNumber = updateRestausentDto.PhoneNumber,
-                Menu = updateRestausentDto.Menu,
                 WorkingHoursFrom = updateRestausentDto.WorkingHoursFrom,
                 WorkingHoursTo = updateRestausentDto.WorkingHoursTo
             };
@@ -108,6 +110,31 @@ namespace Api.Controllers
             var response = await _mediator.Send(request);
 
             return Ok(response.Adapt<ReadRestaurantDto>());
+        }
+
+        [HttpPatch("{restaurantId}/menu")]
+        [ProducesResponseType(200, Type = typeof(ReadRestaurantDto))] // ok
+        [ProducesResponseType(400, Type = typeof(ErrorDetails))] // bad req
+        [ProducesResponseType(409, Type = typeof(ErrorDetails))] // conflict
+        public async Task<IActionResult> AddRestaurantMenu([FromForm] FileRequest formFile, [FromRoute] Guid restaurantId)
+        {
+            var formFileDto = new AddMenuUseCase.MenuFileRequest
+            {
+                FileName = formFile.File!.FileName,
+                ContentType = formFile.File.ContentType,
+                Length = formFile.File.Length,
+                Content = await FileContentConverter.ConvertToByteArrayAsync(formFile.File)
+            };
+
+            var request = new AddMenuUseCase.Request
+            {
+                File = formFileDto,
+                RestaurantId = restaurantId
+            };
+
+            var result = await _mediator.Send(request);
+
+            return Ok(result.Adapt<ReadRestaurantDto>());
         }
     }
 }

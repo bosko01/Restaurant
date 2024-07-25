@@ -3,7 +3,6 @@ using Common.Exceptions;
 using Domain.Interfaces;
 using Domain.Interfaces.IUser;
 using Domain.Interfaces.IUserCredentials;
-using Domain.ValueObjects;
 using MediatR;
 
 namespace Application.UseCases.Users.UpdateUser
@@ -40,13 +39,16 @@ namespace Application.UseCases.Users.UpdateUser
 
             public string Number { get; set; }
 
-            public Response(Guid id, string firstName, string lastName, string countryCode, string number)
+            public string ImageUrl { get; set; }
+
+            public Response(Guid id, string firstName, string lastName, string countryCode, string number, string imageUrl)
             {
                 Id = id;
                 FirstName = firstName;
                 LastName = lastName;
                 CountryCode = countryCode;
                 Number = number;
+                ImageUrl = imageUrl;
             }
         }
 
@@ -76,9 +78,11 @@ namespace Application.UseCases.Users.UpdateUser
 
                 userToUpdate.Update(request.User.FirstName, request.User.LastName, request.User.CountryCode, request.User.Number);
 
-                _unitOfWork.SaveChangesAsync();
+                await _unitOfWork.SaveChangesAsync();
 
-                return new Response(userToUpdate.Id, userToUpdate.FirstName, userToUpdate.LastName, userToUpdate.Phone.CountryCode.ToString(), userToUpdate.Phone.Number.ToString());
+                var userImage = userToUpdate.ImageUrl is null ? "" : userToUpdate.ImageUrl;
+
+                return new Response(userToUpdate.Id, userToUpdate.FirstName, userToUpdate.LastName, userToUpdate.Phone.CountryCode.ToString(), userToUpdate.Phone.Number.ToString(), userImage);
             }
         }
     }

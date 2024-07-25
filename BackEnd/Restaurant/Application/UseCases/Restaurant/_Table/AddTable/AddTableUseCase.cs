@@ -52,7 +52,7 @@ namespace Application.UseCases.Restaurant._Table.AddTable
                 restaurant.AddTable(table);
                 await _tableRepository.CreateNewAsync(table);
 
-                _unitOfWork.SaveChangesAsync();
+                await _unitOfWork.SaveChangesAsync();
 
                 return new Response
                 {

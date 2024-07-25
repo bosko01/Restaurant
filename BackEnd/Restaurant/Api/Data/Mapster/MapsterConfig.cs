@@ -2,6 +2,7 @@
 using Api.Data.DTOs.RestaurantDto;
 using Api.Data.DTOs.Table;
 using Api.Data.DTOs.UserDTOs;
+using Application.Queries.Restaurant;
 using Application.Queries.UserQueries;
 using Application.UseCases.Restaurant._Table.AddTable;
 using Application.UseCases.Restaurant.CreateRestaurant;
@@ -103,7 +104,6 @@ namespace Api.Data.Mapster
                 .Map(dest => dest.Name, src => src.Name)
                 .Map(dest => dest.Description, src => src.Description)
                 .Map(dest => dest.Location, src => src.Location)
-                .Map(dest => dest.Menu, src => src.Menu)
                 .Map(dest => dest.WorkingHoursFrom, src => src.WorkingHoursFrom)
                 .Map(dest => dest.WorkingHoursTo, src => src.WorkingHoursTo);
 
@@ -115,21 +115,10 @@ namespace Api.Data.Mapster
                 .Map(dest => dest.Email, src => src.Email)
                 .Map(dest => dest.CountryCode, src => src.CountryCode)
                 .Map(dest => dest.Number, src => src.Number)
-                .Map(dest => dest.Menu, src => src.Menu)
                 .Map(dest => dest.WorkingHoursFrom, src => src.WorkingHoursFrom)
                 .Map(dest => dest.WorkingHoursTo, src => src.WorkingHoursTo);
 
-            TypeAdapterConfig<RestaurantResponse, ReadRestaurantDto>.NewConfig()
-                .Map(dest => dest.Id, src => src.Id)
-                .Map(dest => dest.Name, src => src.Name)
-                .Map(dest => dest.Description, src => src.Description)
-                .Map(dest => dest.Location, src => src.Location)
-                .Map(dest => dest.Email, src => src.Email)
-                .Map(dest => dest.CountryCode, src => src.CountryCode.ToString())
-                .Map(dest => dest.Number, src => src.Number.ToString())
-                .Map(dest => dest.Menu, src => src.Menu)
-                .Map(dest => dest.WorkingHoursFrom, src => src.WorkingHoursFrom)
-                .Map(dest => dest.WorkingHoursTo, src => src.WorkingHoursTo);
+
 
             TypeAdapterConfig<Restaurant, ReadRestaurantDto>.NewConfig()
                 .Map(dest => dest.Id, src => src.Id)
@@ -139,7 +128,7 @@ namespace Api.Data.Mapster
                 .Map(dest => dest.Email, src => src.Email.ToString())
                 .Map(dest => dest.CountryCode, src => src.Phone.CountryCode.ToString())
                 .Map(dest => dest.Number, src => src.Phone.Number.ToString())
-                .Map(dest => dest.Menu, src => src.Menu)
+                .Map(dest => dest.Menu, src => src.MenuUrl)
                 .Map(dest => dest.WorkingHoursFrom, src => src.WorkingHoursFrom)
                 .Map(dest => dest.WorkingHoursTo, src => src.WorkingHoursTo);
 
@@ -149,9 +138,9 @@ namespace Api.Data.Mapster
                 .Map(dest => dest.Description, src => src.Description)
                 .Map(dest => dest.Location, src => src.Location)
                 .Map(dest => dest.Email, src => src.Email.ToString())
-                .Map(dest => dest.CountryCode, src => src.Phone.CountryCode)
-                .Map(dest => dest.Number, src => src.Phone.Number)
-                .Map(dest => dest.Menu, src => src.Menu)
+                .Map(dest => dest.CountryCode, src => src.Phone.CountryCode.ToString())
+                .Map(dest => dest.Number, src => src.Phone.Number.ToString())
+                .Map(dest => dest.Menu, src => src.MenuUrl)
                 .Map(dest => dest.WorkingHoursFrom, src => src.WorkingHoursFrom)
                 .Map(dest => dest.WorkingHoursTo, src => src.WorkingHoursTo);
 
@@ -164,6 +153,23 @@ namespace Api.Data.Mapster
 
             TypeAdapterConfig<ReadUsersPaginated.Response, ReadTableDto>.NewConfig();
 
+            TypeAdapterConfig<ReadAllRestaurants.RestaurantResponse, ReadRestaurantDto>.NewConfig()
+            .Map(dest => dest.Id, src => src.Id)
+            .Map(dest => dest.Name, src => src.Name)
+            .Map(dest => dest.Description, src => src.Description)
+            .Map(dest => dest.Location, src => src.Location)
+            .Map(dest => dest.Email, src => src.Email)
+            .Map(dest => dest.CountryCode, src => src.CountryCode)
+            .Map(dest => dest.Number, src => src.Number)
+            .Map(dest => dest.Menu, src => src.Menu)
+            .Map(dest => dest.WorkingHoursFrom, src => src.WorkingHoursFrom)
+            .Map(dest => dest.WorkingHoursTo, src => src.WorkingHoursTo);
+
+            TypeAdapterConfig<Restaurant, ReadAllRestaurants.RestaurantResponse>.NewConfig()
+            .Map(dest => dest.Email, src => src.Email.ToString())
+            .Map(dest => dest.CountryCode, src => src.Phone.CountryCode)
+            .Map(dest => dest.Number, src => src.Phone.Number)
+            .Map(dest => dest.Menu, src => src.MenuUrl);
         }
     }
 }
