@@ -33,14 +33,7 @@ namespace Application.Queries.UserQueries
 
             public string Phone { get; set; } = string.Empty;
 
-            public UserResponse(Guid id, string firstName, string lastName, string userType, string phone)
-            {
-                Id = id;
-                FirstName = firstName;
-                LastName = lastName;
-                UserType = userType;
-                Phone = phone;
-            }
+            public string Image {  get; set; } = string.Empty;
         }
 
         public interface IReadUsersPaginatedQuery : IQuery<Request, Response>

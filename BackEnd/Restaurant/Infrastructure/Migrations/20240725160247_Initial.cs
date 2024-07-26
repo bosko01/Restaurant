@@ -21,7 +21,7 @@ namespace Infrastructure.Migrations
                     Location = table.Column<string>(type: "nvarchar(255)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(50)", nullable: false),
                     Phone = table.Column<string>(type: "nvarchar(20)", nullable: false),
-                    Menu = table.Column<string>(type: "nvarchar(255)", nullable: false),
+                    MenuUrl = table.Column<string>(type: "nvarchar(255)", nullable: false),
                     WorkingHoursFrom = table.Column<TimeOnly>(type: "time", nullable: false),
                     WorkingHoursTo = table.Column<TimeOnly>(type: "time", nullable: false),
                     Category = table.Column<string>(type: "nvarchar(max)", nullable: false)
@@ -73,7 +73,8 @@ namespace Infrastructure.Migrations
                     FirstName = table.Column<string>(type: "nvarchar(50)", nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(100)", nullable: false),
                     UserType = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Phone = table.Column<string>(type: "nvarchar(20)", nullable: false)
+                    Phone = table.Column<string>(type: "nvarchar(20)", nullable: false),
+                    ImageUrl = table.Column<string>(type: "nvarchar(255)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -96,7 +97,7 @@ namespace Infrastructure.Migrations
                     RestaurantId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     TableId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     NumberOfPeople = table.Column<int>(type: "int", nullable: false),
-                    Price = table.Column<decimal>(type: "decimal(8,2)", nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(2,2)", precision: 2, nullable: false),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
