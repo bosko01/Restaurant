@@ -1,6 +1,7 @@
 ﻿using Application.Interfaces;
 using Common.Infrastructure;
 using Domain.Interfaces;
+using Domain.Interfaces.IReservation;
 using Domain.Interfaces.IRestaurant;
 using Domain.Interfaces.ITable;
 using Domain.Interfaces.IUser;
@@ -10,6 +11,7 @@ using Infrastructure.Helper;
 using Infrastructure.Queries.RestaurantQueries;
 using Infrastructure.Queries.Table;
 using Infrastructure.Queries.User;
+using Infrastructure.Repositories.ReservationRepository;
 using Infrastructure.Repositories.RestaurantRepository;
 using Infrastructure.Repositories.TableRepository;
 using Infrastructure.Repositories.UnitOfWork;
@@ -48,6 +50,7 @@ namespace Infrastructure.DependencyInjection
             services.AddScoped<IRestaurantRepository, RestaurantRepository>();
             services.AddScoped<ITableRepository, TableRepository>();
             services.AddScoped<IRouteGenerator, RouteGenerator>();
+            services.AddScoped<IReservationRepository, ReservationRepository>();
 
             return services;
         }
