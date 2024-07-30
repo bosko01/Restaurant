@@ -170,6 +170,9 @@ namespace Api.Data.Mapster
             .Map(dest => dest.CountryCode, src => src.Phone.CountryCode)
             .Map(dest => dest.Number, src => src.Phone.Number)
             .Map(dest => dest.Menu, src => src.MenuUrl);
+
+            TypeAdapterConfig<User, ReadUsersPaginated.UserResponse>.NewConfig()
+            .Map(dest => dest.Image, src => src.ImageUrl);
         }
     }
 }

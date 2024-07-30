@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(RestaurantDbContext))]
-    [Migration("20240724121412_3")]
-    partial class _3
+    [Migration("20240730082826_Reservation Duration Added")]
+    partial class ReservationDurationAdded
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -30,6 +30,12 @@ namespace Infrastructure.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<TimeOnly>("DurationFrom")
+                        .HasColumnType("time");
+
+                    b.Property<TimeOnly>("DurationTo")
+                        .HasColumnType("time");
 
                     b.Property<int>("NumberOfPeople")
                         .HasColumnType("int");

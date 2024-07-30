@@ -28,12 +28,17 @@ namespace Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<TimeOnly>("DurationFrom")
+                        .HasColumnType("time");
+
+                    b.Property<TimeOnly>("DurationTo")
+                        .HasColumnType("time");
+
                     b.Property<int>("NumberOfPeople")
                         .HasColumnType("int");
 
                     b.Property<decimal>("Price")
-                        .HasPrecision(2)
-                        .HasColumnType("decimal(2,2)");
+                        .HasColumnType("decimal(8,2)");
 
                     b.Property<Guid>("RestaurantId")
                         .HasColumnType("uniqueidentifier");
