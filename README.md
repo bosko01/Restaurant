@@ -1,20 +1,57 @@
-# Introduction 
-TODO: Give a short introduction of your project. Let this section explain the objectives or the motivation behind this project. 
+# Restaurant Management API
 
-# Getting Started
-TODO: Guide users through getting your code up and running on their own system. In this section you can talk about:
-1.	Installation process
-2.	Software dependencies
-3.	Latest releases
-4.	API references
+## Project Description
 
-# Build and Test
-TODO: Describe and show how to build your code and run the tests. 
+Restaurant Management API is a **RESTful API** developed in **C# using ASP.NET Core**, designed to manage restaurants, their contact information, and working hours. The project is built according to **Clean Architecture** principles, utilizing **CQRS** and **Unit of Work** patterns, aiming to create a maintainable, scalable, and testable backend solution.
 
-# Contribute
-TODO: Explain how other users and developers can contribute to make your code better. 
+## The API provides:  
+- Create, Read, Update, Delete (CRUD) operations for restaurants  
+- Management of contact information, including email and phone number  
+- Management of restaurant working hours  
+- Centralized error handling using middleware  
 
-If you want to learn more about creating good readme files then refer the following [guidelines](https://docs.microsoft.com/en-us/azure/devops/repos/git/create-a-readme?view=azure-devops). You can also seek inspiration from the below readme files:
-- [ASP.NET Core](https://github.com/aspnet/Home)
-- [Visual Studio Code](https://github.com/Microsoft/vscode)
-- [Chakra Core](https://github.com/Microsoft/ChakraCore)
+## Technologies and Tools
+- **C# / .NET 8** – primary programming language and framework  
+- **ASP.NET Core Web API** – building RESTful services  
+- **Entity Framework Core (EF Core)** – ORM for database access  
+- **SQL Server** – relational database  
+- **Swashbuckle / Swagger** – API documentation and testing  
+- **Mapster** – mapping between DTOs and entities  
+- **Dependency Injection (DI)** – managing service dependencies  
+- **Middleware** – centralized error handling and logging  
+- **Fluent API** – configuring EF Core entities  
+- **Git** – version control  
+
+## Architecture
+The project follows **Clean Architecture**:
+/Api -> ASP.NET Core Web API, entry point of the application
+/Application -> Business logic, DTOs, CQRS commands and queries
+/Domain -> Entities and business rules
+/Infrastructure -> Database access, repository implementations
+
+
+### Key Principles
+- **Clean Architecture** – separation of layers for maintainability and testability  
+- **CQRS (Command Query Responsibility Segregation)** – separating read and write operations  
+- **Unit of Work & Repository Pattern** – centralized transaction management and data access  
+- **DTOs (Data Transfer Objects)** – encapsulating data between layers  
+- **Middleware for Error Handling** – centralized exception handling and logging  
+
+### Best Practices Implemented
+Data validation using annotations like [EmailAddress] and [Required]
+Automatic mapping of entities and DTOs via Mapster
+Centralized error handling using custom middleware
+Swagger UI for exploring and testing API endpoints
+Environment-based configuration (appsettings.Development.json, appsettings.Production.json)
+Dependency Injection for all services and repositories
+
+### Future Enhancements
+User authentication and authorization (JWT)
+Advanced filtering and pagination for restaurants
+Unit testing for services and CQRS commands
+Docker support for deployment
+
+## Contact
+  **Email**: vujanovicbosko01@gmail.com
+  
+  **LinkedIn**: https://www.linkedin.com/in/bosko-vujanovic
