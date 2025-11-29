@@ -21,7 +21,15 @@ namespace Infrastructure.Database.EntityConfiguration
                 .IsRequired();
 
             builder.Property(x => x.Price)
-                .HasPrecision(2)
+                .HasColumnType ("decimal(8,2)")
+                .IsRequired();
+
+            builder.Property(x => x.DurationFrom)
+                .HasColumnType("time")
+                .IsRequired();
+
+            builder.Property(x => x.DurationTo)
+                .HasColumnType("time")
                 .IsRequired();
 
             builder.ConfigureEnum(x => x.Status);

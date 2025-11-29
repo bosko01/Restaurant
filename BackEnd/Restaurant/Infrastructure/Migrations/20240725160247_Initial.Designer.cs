@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(RestaurantDbContext))]
-    [Migration("20240715095334_Initial")]
+    [Migration("20240725160247_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -35,7 +35,8 @@ namespace Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(8,2)");
+                        .HasPrecision(2)
+                        .HasColumnType("decimal(2,2)");
 
                     b.Property<Guid>("RestaurantId")
                         .HasColumnType("uniqueidentifier");
@@ -87,7 +88,7 @@ namespace Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(255)");
 
-                    b.Property<string>("Menu")
+                    b.Property<string>("MenuUrl")
                         .IsRequired()
                         .HasColumnType("nvarchar(255)");
 
@@ -174,6 +175,9 @@ namespace Infrastructure.Migrations
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("LastName")
                         .IsRequired()
